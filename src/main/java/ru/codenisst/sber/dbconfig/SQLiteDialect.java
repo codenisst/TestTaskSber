@@ -9,6 +9,7 @@ import org.hibernate.type.StringType;
 import java.sql.Types;
 
 public class SQLiteDialect extends Dialect {
+
     public SQLiteDialect() {
         registerColumnType(Types.BIT, "integer");
         registerColumnType(Types.TINYINT, "tinyint");
@@ -29,7 +30,7 @@ public class SQLiteDialect extends Dialect {
         registerColumnType(Types.BINARY, "blob");
         registerColumnType(Types.VARBINARY, "blob");
         registerColumnType(Types.LONGVARBINARY, "blob");
-         registerColumnType(Types.NULL, "null");
+        registerColumnType(Types.NULL, "null");
         registerColumnType(Types.BLOB, "blob");
         registerColumnType(Types.CLOB, "clob");
         registerColumnType(Types.BOOLEAN, "integer");

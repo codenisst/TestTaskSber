@@ -6,4 +6,5 @@ import ru.codenisst.sber.models.Log;
 
 @Repository
 public interface LogRepository extends JpaRepository<Log, Integer> {
+
 }
