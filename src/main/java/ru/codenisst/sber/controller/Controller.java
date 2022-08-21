@@ -18,7 +18,7 @@ public class Controller {
     }
 
     @PostMapping(produces = "application/json")
-    public void test(@RequestBody String requestBody) {
+    public void takeLog(@RequestBody String requestBody) {
         manager.save(requestBody);
     }
 
