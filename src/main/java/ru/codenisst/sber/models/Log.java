@@ -1,6 +1,7 @@
 package ru.codenisst.sber.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "logs")
@@ -29,7 +31,7 @@ public class Log {
     private String level;
 
     @Column(name = "timestamp", nullable = false)
-    private String timestamp;
+    private Timestamp timestamp;
 
     public Log() {
     }
@@ -38,7 +40,7 @@ public class Log {
     public Log(@JsonProperty(required = true) String message,
                @JsonProperty(required = true) String type,
                @JsonProperty(required = true) String level,
-               @JsonProperty(required = true) String timestamp) {
+               @JsonProperty(required = true) @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS") Timestamp timestamp) {
         this.message = message;
         this.type = type;
         this.level = level;
@@ -73,11 +75,22 @@ public class Log {
         this.level = level;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", type='" + type + '\'' +
+                ", level='" + level + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

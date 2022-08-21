@@ -2,20 +2,23 @@ package ru.codenisst.sber.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.codenisst.sber.models.Log;
 import ru.codenisst.sber.models.repositories.LogRepository;
+import ru.codenisst.sber.util.LogException;
 
 @Service
-public class RequestBodyManager {
+public class RequestManager {
 
     private final LogRepository repo;
     private final ObjectMapper objectMapper;
-    //логгер
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public RequestBodyManager(LogRepository repo, ObjectMapper objectMapper) {
+    public RequestManager(LogRepository repo, ObjectMapper objectMapper) {
         this.repo = repo;
         this.objectMapper = objectMapper;
     }
@@ -23,12 +26,14 @@ public class RequestBodyManager {
     public void save(String stringJson) {
         try {
             Log log = objectMapper.readValue(stringJson, Log.class);
-
             repo.save(log);
-            //логгер пишет в лог об успехе
+            logger.info("Saved in the database: " + log.getMessage());
         } catch (JsonProcessingException e) {
-            //логгер пишет в лог о провале
-            System.out.println("Пишется ошибка в лог о некорректном jsone");
+            throw new LogException("Log is not properly compiled.");
         }
+    }
+
+    public void handle(RuntimeException e) {
+        logger.error(e.getMessage());
     }
 }
